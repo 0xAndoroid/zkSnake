@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "base64-sol/base64.sol";
+import "base64/base64.sol";
 import "openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import {Strings} from "openzeppelin/contracts/utils/Strings.sol";
 
 contract ZkSnakeTemp is ERC721, ERC721Burnable {
     mapping(uint256 => uint256) public scores;
@@ -52,13 +53,13 @@ contract ZkSnakeTemp is ERC721, ERC721Burnable {
         _requireMinted(tokenId);
         string[] memory uriParts = new string[](4);
         uriParts[0] = string("data:application/json;base64,");
-        string score = scores[tokenId].toString();
+        string memory score = Strings.toString(scores[tokenId]);
         uriParts[1] = string(
             abi.encodePacked(
-                '{"name":"Piggybank #',
-                tokenId.toString(),
+                '{"name":"zkSnake #',
+                Strings.toString(tokenId),
                 '",',
-                '"description":"Piggybanks are NFT owned accounts (6551) that accept ETH and only return it when burned. Burned NFTs are sent to their own 6551 addresses, making them ",',
+                '"description":"",',
                 '"attributes":[{"trait_type":"Score","value":"',
                 score,
                 ' ETH"},{"trait_type":"Status","value":"Exists"}],',

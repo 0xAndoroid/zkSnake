@@ -56,8 +56,8 @@ contract ZkSnakeTemp is ERC721, ERC721Burnable {
         string memory score = Strings.toString(scores[tokenId]);
         uriParts[1] = string(
             abi.encodePacked(
-                '{"name":"zkSnake #',
-                Strings.toString(tokenId),
+                '{"name":"zkSnake Score ',
+                score,
                 '",',
                 '"description":"",',
                 '"attributes":[{"trait_type":"Score","value":"',

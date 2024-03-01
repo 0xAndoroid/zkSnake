@@ -8,6 +8,7 @@ use risc0_zkvm::guest::env;
 
 risc0_zkvm::guest::entry!(main);
 
+#[derive(Clone, Copy)]
 struct Position {
     x: u8,
     y: u8,
@@ -19,12 +20,12 @@ fn main() {
     env::stdin().read_to_end(&mut input_bytes).unwrap();
     // Type array passed to `ethabi::decode_whole` should match the types encoded in
     // the application contract.
-    let input: Vec<u8> = ethabi::decode_whole(&[ParamType::Bytes], &input_bytes).unwrap()
+    let input: Vec<u8> = ethabi::decode_whole(&[ParamType::Bytes], &input_bytes)
+        .unwrap()
         .into_iter()
         .map(|token| token.into_uint().unwrap().as_u64() as u8)
         .collect();
 
-    
     let mut score = U256::zero();
     let mut tick = U256::zero();
     let mut prev_direction = 4;
@@ -131,56 +132,66 @@ fn main() {
         Position { x: 2, y: 1 },
     ];
     let mut snake: Vec<Position> = vec![Position { x: 0, y: 0 }];
-    let mut tail = snake[snake.len() - 1]; // after snake moves, this becomes its previous tail. if snake eats after moving, we add this piece back.
-    
+    // let mut tail = snake[snake.len() - 1]; // after snake moves, this becomes its
+    // previous tail. if snake eats after moving, we add this piece back.
+
     for direction in input {
         // skip invalid moves
-        if prev_direction == 0 && direction == 2 {
-            continue;
-        } else if prev_direction == 2 && direction == 0 {
-            continue;
-        } else if prev_direction == 1 && direction == 3 {
-            continue;
-        } else if prev_direction == 3 && direction == 1 {
-            continue;
+        if (prev_direction == 0 && direction == 2)
+            || (prev_direction == 2 && direction == 0)
+            || (prev_direction == 1 && direction == 3)
+            || (prev_direction == 3 && direction == 1)
+        {
+            panic!("Invalid move");
         }
 
         match direction {
             0 => {
                 // up
-                if snake.len() > 0 {
+                if !snake.is_empty() {
                     let head = snake[0];
-                    let new_head = Position { x: head.x, y: head.y - 1 };
+                    let new_head = Position {
+                        x: head.x,
+                        y: head.y - 1,
+                    };
                     snake.insert(0, new_head);
-                    tail = snake.pop().unwrap();
+                    snake.pop().unwrap();
                 }
             }
             1 => {
-                // right 
-                if snake.len() > 0 {
+                // right
+                if !snake.is_empty() {
                     let head = snake[0];
-                    let new_head = Position { x: head.x + 1, y: head.y };
+                    let new_head = Position {
+                        x: head.x + 1,
+                        y: head.y,
+                    };
                     snake.insert(0, new_head);
-                    tail = snake.pop().unwrap();
+                    snake.pop().unwrap();
                 }
-                
             }
             2 => {
                 // down
-                if snake.len() > 0 {
+                if !snake.is_empty() {
                     let head = snake[0];
-                    let new_head = Position { x: head.x, y: head.y + 1 };
+                    let new_head = Position {
+                        x: head.x,
+                        y: head.y + 1,
+                    };
                     snake.insert(0, new_head);
-                    tail = snake.pop().unwrap();
+                    snake.pop().unwrap();
                 }
             }
             3 => {
                 // left
-                if snake.len() > 0 {
+                if !snake.is_empty() {
                     let head = snake[0];
-                    let new_head = Position { x: head.x - 1, y: head.y };
+                    let new_head = Position {
+                        x: head.x - 1,
+                        y: head.y,
+                    };
                     snake.insert(0, new_head);
-                    tail = snake.pop().unwrap();
+                    _ = snake.pop().unwrap();
                 }
             }
             _ => {
@@ -206,14 +217,15 @@ fn main() {
             score += Uint::from(1);
         }
 
-        // if current food collides with any position of the snake, cycle through remaining food to find one that doesn't collide.
-        for i in snake {
+        // if current food collides with any position of the snake, cycle through
+        // remaining food to find one that doesn't collide.
+        for i in &snake {
             if i.x == food.x && i.y == food.y {
                 foods.remove(0);
             }
         }
     }
-    
+
     // Commit the journal that will be received by the application contract.
     // Encoded types should match the args expected by the application callback.
     env::commit_slice(&ethabi::encode(&[Token::Uint(score), Token::Uint(tick)]));

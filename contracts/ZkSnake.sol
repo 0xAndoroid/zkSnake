@@ -15,29 +15,21 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
     mapping(uint256 => uint256) public scores;
     uint256[] public topScores;
 
-    constructor(
-        IBonsaiRelay bonsaiRelay,
-        bytes32 _snakeImageId
-    ) ERC721("zkSnake", "SNAKE") BonsaiCallbackReceiver(bonsaiRelay) {
+    constructor(IBonsaiRelay bonsaiRelay, bytes32 _snakeImageId)
+        ERC721("zkSnake", "SNAKE")
+        BonsaiCallbackReceiver(bonsaiRelay)
+    {
         snakeImageId = _snakeImageId;
         topScores = new uint256[](10);
     }
 
-    function mintByAuthority(
-        address to,
-        uint256 tokenId,
-        uint256 score
-    ) external onlyBonsaiCallback(snakeImageId) {
+    function mintByAuthority(address to, uint256 tokenId, uint256 score) external onlyBonsaiCallback(snakeImageId) {
         _mint(to, tokenId);
         scores[tokenId] = score;
         updateTopScores(tokenId, score);
     }
 
-    function submitScore(
-        uint256 tokenId,
-        uint256 score,
-        bytes memory gameplay
-    ) external {
+    function submitScore(uint256 tokenId, uint256 score, bytes memory gameplay) external {
         bonsaiRelay.requestCallback(
             snakeImageId,
             abi.encode(msg.sender, tokenId, score, gameplay),
@@ -61,9 +53,7 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
         topScores[index] = tokenId;
     }
 
-    function tokenURI(
-        uint256 tokenId
-    ) public view override returns (string memory) {
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
         _requireMinted(tokenId);
         string[] memory uriParts = new string[](4);
         uriParts[0] = string("data:application/json;base64,");
@@ -89,12 +79,8 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
             )
         );
         uriParts[3] = string('"}');
-        string memory uri = string.concat(
-            uriParts[0],
-            Base64.encode(
-                abi.encodePacked(uriParts[1], uriParts[2], uriParts[3])
-            )
-        );
+        string memory uri =
+            string.concat(uriParts[0], Base64.encode(abi.encodePacked(uriParts[1], uriParts[2], uriParts[3])));
 
         return uri;
     }

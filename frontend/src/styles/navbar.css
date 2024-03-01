@@ -1,0 +1,45 @@
+/* General Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed; /* Fixed at the top */
+    top: 0;
+    width: 100%;
+    background-color: #333; /* Dark background */
+    color: #fff;
+    padding: 10px 0; /* Spacing above and below navbar items */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    z-index: 1000; /* Ensure navbar is above other content */
+  }
+  
+  .nav-item {
+    margin: 0 15px; /* Space between nav items */
+  }
+  
+  /* NavLink Styles */
+  .nav-item a {
+    color: #fff; /* White text color */
+    text-decoration: none; /* No underline */
+    font-size: 16px; /* Adjust as needed */
+    padding: 5px 10px; /* Padding for clickable area */
+    border-radius: 5px; /* Rounded corners for the clickable area */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+  }
+  
+  /* Hover and Active Styles */
+  .nav-item a:hover,
+  .nav-item a.active-link {
+    background-color: #555; /* Slightly darker on hover/active */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .navbar {
+      flex-direction: column; /* Stack nav items under each other */
+    }
+    .nav-item {
+      margin: 10px 0; /* More space between items in vertical layout */
+    }
+  }
+  

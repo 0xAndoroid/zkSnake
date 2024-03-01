@@ -16,3 +16,8 @@ target/
 
 # Misc
 .idea
+
+# Node
+node_modules/
+to\ do.txt
+

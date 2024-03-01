@@ -1,0 +1,13 @@
+/* styles.css or your component's CSS module
+
+@keyframes chroma {
+  0% { background-color: #ff0000; }
+  25% { background-color: #ffff00; }
+  50% { background-color: #00ff00; }
+  75% { background-color: #00ffff; }
+  100% { background-color: #0000ff; }
+}
+
+.chroma-effect {
+  animation: chroma 8s infinite linear;
+} */

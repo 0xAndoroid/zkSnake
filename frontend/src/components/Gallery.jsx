@@ -5,7 +5,7 @@ import NFTCard from './NFTCard';
 
 
 const Gallery = (props) => {
-  //State variables
+
   const [nfts, setNFTs] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [page, setPage] = useState(1);
@@ -58,7 +58,7 @@ const Gallery = (props) => {
   
 
   
-  //jsx containing our conditional rendering
+
   return (
     <div className='container mx-auto mb-8'>
       <h1 className="text-4xl font-bold text-center my-8">

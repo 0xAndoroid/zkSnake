@@ -66,20 +66,7 @@ export const App = () => {
 
   return (
     <div className="max-h-screen max-w-full">
-      {/* <h1 className="text-[green] text-5xl font-bold text-center">ZKSnake</h1> */}
-      {/* <div className={"Info-Status"}>
-        <p>{`Connected chain: ${chainId}`}</p>
-        <p>{`Connected account: ${account}`}</p>
-        <p>{`Account balance: ${balance}`}</p>
-        <p>{`Last request response: ${response}`}</p>
-        <p>{`Connected: ${connected}`}</p>
-      </div> */}
 
-      {/* <div className="sdkConfig">
-        {connecting && (
-          <div>Waiting for Metamask to link the connection...</div>
-        )}
-      </div> */}
 
       {(connected || account) ? (
         <div>
@@ -104,14 +91,7 @@ export const App = () => {
       <LandingHero address={account} connect={connect}/>
         </div>
       )}
-{/* 
-      <button
-        className={'Button-Danger'}
-        style={{ padding: 10, margin: 10 }}
-        onClick={terminate}
-      >
-        Terminate
-      </button> */}
+
     </div>
   );
 };

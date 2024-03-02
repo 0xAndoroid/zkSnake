@@ -31,12 +31,12 @@ const COLLECTION_ADDRESS = '0x1545911C6707b47a5890e95b4Aecb0c8264ca0c3'
       const decodedJSONString = atob(base64EncodedJSON);
       const token = JSON.parse(decodedJSONString);
   
-      // Convert hexadecimal tokenID to decimal
+
       const tokenIdDecimal = parseInt(tokenID._hex, 16);
   
-      // Adding Place and tokenID attributes to the token object
+
       token.Place = i + 1; // Since i starts from 0
-      token.tokenID = tokenIdDecimal; // Converted tokenID from hex to decimal
+      token.tokenID = tokenIdDecimal; // Converted tokenID from hex to base 10
   
       collection.push(token);
 

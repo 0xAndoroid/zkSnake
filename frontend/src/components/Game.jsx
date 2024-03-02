@@ -103,20 +103,18 @@ const Game = () => {
         <h1 className="text-4xl font-bold text-center mt-8">
           Play <span className="text-green-500">zkSnake</span>
         </h1>
-        <h2 className="text-2xl font-bold text-center mb-5">
-          Score: {score}
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-5">Score: {score}</h2>
         {gameOver ? (
           <div className="flex flex-col">
-          <span className="text-5xl font-bold text-center mb-5 text-red-500">
-            Game Over
-          </span>
-          <MintNFT gameplay={gameplay} />
+            <span className="text-5xl font-bold text-center mb-5 text-red-500">
+              Game Over
+            </span>
+            <MintNFT gameplay={gameplay} />
           </div>
         ) : (
-        <div className="flex justify-center items-center">
-          <VideoGame snakeArr={snake} food={food[0]} />
-        </div>
+          <div className="flex justify-center items-center">
+            <VideoGame snakeArr={snake} food={food[0]} />
+          </div>
         )}
       </div>
     </div>

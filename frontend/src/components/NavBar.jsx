@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from "../styles/zksnake.png";
+import logo from "../styles/zksnake.jpg";
 import SiteDropdown from "./SiteDropdown"
 
 const Navbar = (props) => {

@@ -75,7 +75,7 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
                 score,
                 '"}, {"trait_type": "Length","value":"',
                 length,
-                "}],",
+                '"}],',
                 '"image":"data:image/svg+xml;base64,'
             )
         );

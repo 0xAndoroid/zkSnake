@@ -3,8 +3,7 @@
 
 use std::io::Read;
 
-use ethabi::ethereum_types::U256;
-use ethabi::{ParamType, Token, Uint};
+use ethabi::{ethereum_types::U256, ParamType, Token, Uint};
 use risc0_zkvm::guest::env;
 
 risc0_zkvm::guest::entry!(main);
@@ -129,7 +128,12 @@ fn main() {
         Position { x: 4, y: 0 },
         Position { x: 2, y: 1 },
     ];
-    let mut snake: Vec<Position> = vec![Position { x: 0, y: 0 }];
+    let mut snake: Vec<Position> = vec![
+        Position { x: 5, y: 5 },
+        Position { x: 5, y: 6 },
+        Position { x: 5, y: 7 },
+        Position { x: 5, y: 8 },
+    ];
     // let mut tail = snake[snake.len() - 1]; // after snake moves, this becomes its
     // previous tail. if snake eats after moving, we add this piece back.
 
@@ -217,10 +221,8 @@ fn main() {
 
         // if current food collides with any position of the snake, cycle through
         // remaining food to find one that doesn't collide.
-        for i in &snake {
-            if i.x == food.x && i.y == food.y {
-                foods.remove(0);
-            }
+        while snake.iter().find(|&&x| x.x == food.x && x.y == food.y).is_some() {
+            foods.remove(0);
         }
     }
 

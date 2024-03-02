@@ -79,7 +79,6 @@ enum Command {
         /// Number of connection attempts.
         #[arg(short = 'a', long, env, default_value_t = CONNECTION_RETRY_ATTEMPTS)]
         connection_retry_attempts: u64,
-
     },
 }
 

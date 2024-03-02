@@ -6,7 +6,7 @@ import NFTCard from './NFTCard';
 
 
 const Leaderboard = () => {
-const COLLECTION_ADDRESS = '0x1545911C6707b47a5890e95b4Aecb0c8264ca0c3'
+const COLLECTION_ADDRESS = '0x70fFb648229Ee082A7933310F5fce9f564C01006'
 
 
   const [nfts, setNFTs] = useState([])

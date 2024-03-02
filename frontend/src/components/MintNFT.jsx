@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import confetti from "canvas-confetti";
 
 const MintNFT = ({ gameplay = [] }) => {
-  const CONTRACT_ADDRESS = "0x3e122282E98419b4C0B97367b13325C6d004dF9b";
+  const CONTRACT_ADDRESS = "0x70fFb648229Ee082A7933310F5fce9f564C01006";
   const mint = async (gameplay) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);

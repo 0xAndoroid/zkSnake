@@ -218,12 +218,6 @@ fn main() {
             snake.push(tail);
             score += Uint::from(1);
         }
-
-        // if current food collides with any position of the snake, cycle through
-        // remaining food to find one that doesn't collide.
-        while snake.iter().find(|&&x| x.x == food.x && x.y == food.y).is_some() {
-            foods.remove(0);
-        }
     }
 
     // Commit the journal that will be received by the application contract.

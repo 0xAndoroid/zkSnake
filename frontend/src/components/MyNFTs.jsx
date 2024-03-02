@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { ethers } from "ethers";
 import NFTCard from './NFTCard';
 import { ZKSNAKE_ABI } from '../assets/zksnake_abi';
+import { CONTRACT_ADDRESS } from "../assets/contract";
 
 
 const MyNFTs = (props) => {
@@ -10,12 +11,11 @@ const MyNFTs = (props) => {
   const [nfts, setNFTs] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const COLLECTION_ADDRESS = '0x70fFb648229Ee082A7933310F5fce9f564C01006';
   
   const checkOwnership = async (token) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
 
-    const contract = new ethers.Contract("0x1545911C6707b47a5890e95b4Aecb0c8264ca0c3", ZKSNAKE_ABI, provider);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ZKSNAKE_ABI, provider);
     const owner = await contract.ownerOf(token.collectionTokenId);
 
     return owner.toLowerCase() === props.address.toLowerCase();
@@ -35,7 +35,7 @@ const MyNFTs = (props) => {
 
         const collection = await provider.send("qn_fetchNFTsByCollection", [
           {
-            collection: COLLECTION_ADDRESS,
+            collection: CONTRACT_ADDRESS,
             page: pageNum,
             perPage: 10,
           }

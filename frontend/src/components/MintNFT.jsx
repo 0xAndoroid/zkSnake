@@ -2,9 +2,9 @@ import React from "react";
 import { ZKSNAKE_ABI } from "../assets/zksnake_abi";
 import { ethers } from "ethers";
 import confetti from "canvas-confetti";
+import { CONTRACT_ADDRESS } from "../assets/contract";
 
 const MintNFT = ({ gameplay = [] }) => {
-  const CONTRACT_ADDRESS = "0x70fFb648229Ee082A7933310F5fce9f564C01006";
   const mint = async (gameplay) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);

@@ -30,15 +30,15 @@ import {ZkSnake} from "../contracts/ZkSnake.sol";
 contract Deploy is Script, BonsaiCheats, BonsaiDeploy {
     function run() external {
         startBroadcast();
-        console2.log("Deploying Bonsai Relayer...");
-        IBonsaiRelay bonsaiRelay = deployBonsaiRelay();
-        uploadImages();
+        // console2.log("Deploying Bonsai Relayer...");
+        // IBonsaiRelay bonsaiRelay = deployBonsaiRelay();
+        // uploadImages();
 
         // TEMPLATE: Modify this block to match your expected deployment.
         bytes32 imageId = queryImageId("SNAKE");
         console2.log("Image ID for SNAKE is ", vm.toString(imageId));
-        ZkSnake app = new ZkSnake(bonsaiRelay, imageId);
-        console2.log("Deployed BonsaiStarter to ", address(app));
+        ZkSnake app = new ZkSnake(IBonsaiRelay(0x31C362c76FB9f01f81aA56f913913425813b1881), imageId);
+        console2.log("Deployed ZkSnake to ", address(app));
 
         vm.stopBroadcast();
     }

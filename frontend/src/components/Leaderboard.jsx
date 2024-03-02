@@ -2,13 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { ethers } from "ethers";
 import { ZKSNAKE_ABI } from '../assets/zksnake_abi';
 import NFTCard from './NFTCard';
-
+import { CONTRACT_ADDRESS } from "../assets/contract";
 
 
 const Leaderboard = () => {
-const COLLECTION_ADDRESS = '0x70fFb648229Ee082A7933310F5fce9f564C01006'
-
-
   const [nfts, setNFTs] = useState([])
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,7 +13,7 @@ const COLLECTION_ADDRESS = '0x70fFb648229Ee082A7933310F5fce9f564C01006'
     let i = 0;
     let collection = [];
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contract = new ethers.Contract(COLLECTION_ADDRESS, ZKSNAKE_ABI, provider);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ZKSNAKE_ABI, provider);
     setIsLoading(true);
   
     while (i < 10) {

@@ -39,7 +39,11 @@ mod tests {
         let session_info = default_executor().execute(env, super::SNAKE_ELF).unwrap();
 
         let output = ethabi::decode(
-            &[ParamType::Address, ParamType::Uint(256), ParamType::Uint(256)],
+            &[
+                ParamType::Address,
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+            ],
             &session_info.journal.bytes,
         )
         .unwrap();

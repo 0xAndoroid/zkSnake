@@ -18,27 +18,24 @@ pragma solidity ^0.8.17;
 
 import {BonsaiTest} from "bonsai/BonsaiTest.sol";
 import {IBonsaiRelay} from "bonsai/relay/IBonsaiRelay.sol";
-import {BonsaiStarterLowLevel} from "../contracts/BonsaiStarterLowLevel.sol";
+import {ZkSnake} from "contracts/ZkSnake.sol";
 
-contract BonsaiStarterLowLevelTest is BonsaiTest {
+contract ZkSnakeTest is BonsaiTest {
     function setUp() public withRelay {}
 
-    function testMockLowLevelCall() public {
+    // Test the BonsaiStarter contract by mocking an on-chain callback request
+    function testOnChainMock() public {
         // Deploy a new starter instance
-        BonsaiStarterLowLevel starter = new BonsaiStarterLowLevel(IBonsaiRelay(bonsaiRelay), queryImageId("FIBONACCI"));
+        ZkSnake starter = new ZkSnake(IBonsaiRelay(bonsaiRelay), queryImageId("SNAKE"));
 
-        // Anticipate a callback request to the relay
+        // Anticipate an on-chain callback request to the relay
         vm.expectCall(address(bonsaiRelay), abi.encodeWithSelector(IBonsaiRelay.requestCallback.selector));
-        // Request the callback
-        starter.calculateFibonacci(128);
+        // Request the on-chain callback
+        starter.submitScore(hex"0000");
 
         // Anticipate a callback invocation on the starter contract
-        vm.expectCall(address(starter), abi.encodeWithSelector(starter.bonsaiLowLevelCallbackReceiver.selector));
+        vm.expectCall(address(starter), abi.encodeWithSelector(ZkSnake.mintByAuthority.selector));
         // Relay the solution as a callback
         runPendingCallbackRequest();
-
-        // Validate the Fibonacci solution value
-        uint256 result = starter.fibonacci(128);
-        assertEq(result, uint256(407305795904080553832073954));
     }
 }

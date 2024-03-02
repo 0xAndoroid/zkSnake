@@ -80,9 +80,6 @@ enum Command {
         #[arg(short = 'a', long, env, default_value_t = CONNECTION_RETRY_ATTEMPTS)]
         connection_retry_attempts: u64,
 
-        /// Interval between connection attempts.
-        #[arg(short = 'i', long, env, default_value_t = CONNECTION_RETRY_INTERVAL.into(), value_parser = humantime::parse_duration)]
-        connection_retry_interval: humantime::Duration,
     },
 }
 
@@ -191,7 +188,6 @@ async fn main() -> anyhow::Result<()> {
             eth_chain_id,
             private_key,
             connection_retry_attempts,
-            connection_retry_interval,
         } => {
             let relayer = Relayer {
                 rest_api: true,
@@ -206,7 +202,7 @@ async fn main() -> anyhow::Result<()> {
                 eth_chain_id,
                 private_key.try_into()?,
                 connection_retry_attempts,
-                connection_retry_interval.into(),
+                CONNECTION_RETRY_INTERVAL,
             );
             let server_handle = tokio::spawn(relayer.run(client_config));
 

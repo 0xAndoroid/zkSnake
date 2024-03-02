@@ -3,7 +3,8 @@
 
 use std::io::Read;
 
-use ethabi::{ethereum_types::U256, ParamType, Token, Uint};
+use ethabi::ethereum_types::U256;
+use ethabi::{ParamType, Token, Uint};
 use risc0_zkvm::guest::env;
 
 risc0_zkvm::guest::entry!(main);
@@ -15,16 +16,13 @@ struct Position {
 }
 
 fn main() {
-    // Read data sent from the application contract.
     let mut input_bytes = Vec::<u8>::new();
     env::stdin().read_to_end(&mut input_bytes).unwrap();
     // Type array passed to `ethabi::decode_whole` should match the types encoded in
     // the application contract.
-    let input: Vec<u8> = ethabi::decode_whole(&[ParamType::Bytes], &input_bytes)
-        .unwrap()
-        .into_iter()
-        .map(|token| token.into_uint().unwrap().as_u64() as u8)
-        .collect();
+    let input = ethabi::decode(&[ParamType::Address, ParamType::Bytes], &input_bytes).unwrap();
+    let address = input[0].clone().into_address().unwrap();
+    let input = input[1].clone().into_bytes().unwrap();
 
     let mut score = U256::zero();
     let mut tick = U256::zero();
@@ -228,5 +226,9 @@ fn main() {
 
     // Commit the journal that will be received by the application contract.
     // Encoded types should match the args expected by the application callback.
-    env::commit_slice(&ethabi::encode(&[Token::Uint(score), Token::Uint(tick)]));
+    env::commit_slice(&ethabi::encode(&[
+        Token::Address(address),
+        Token::Uint(score),
+        Token::Uint(tick),
+    ]));
 }

@@ -10,9 +10,12 @@ import {BonsaiCallbackReceiver} from "bonsai/relay/BonsaiCallbackReceiver.sol";
 
 contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
     bytes32 public immutable snakeImageId;
-    uint64 private constant BONSAI_CALLBACK_GAS_LIMIT = 100000;
+    uint64 private constant BONSAI_CALLBACK_GAS_LIMIT = 1000000;
+
+    uint256 private nextTokenId;
 
     mapping(uint256 => uint256) public scores;
+    mapping(uint256 => uint256) public lengths;
     uint256[] public topScores;
 
     constructor(IBonsaiRelay bonsaiRelay, bytes32 _snakeImageId)
@@ -23,16 +26,18 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
         topScores = new uint256[](10);
     }
 
-    function mintByAuthority(address to, uint256 tokenId, uint256 score) external onlyBonsaiCallback(snakeImageId) {
+    function mintByAuthority(address to, uint256 score, uint256 length) external onlyBonsaiCallback(snakeImageId) {
+        uint256 tokenId = nextTokenId++;
         _mint(to, tokenId);
         scores[tokenId] = score;
+        lengths[tokenId] = length;
         updateTopScores(tokenId, score);
     }
 
-    function submitScore(uint256 tokenId, uint256 score, bytes memory gameplay) external {
+    function submitScore(bytes memory gameplay) external {
         bonsaiRelay.requestCallback(
             snakeImageId,
-            abi.encode(msg.sender, tokenId, score, gameplay),
+            abi.encode(msg.sender, gameplay),
             address(this),
             this.mintByAuthority.selector,
             BONSAI_CALLBACK_GAS_LIMIT
@@ -58,6 +63,7 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
         string[] memory uriParts = new string[](4);
         uriParts[0] = string("data:application/json;base64,");
         string memory score = Strings.toString(scores[tokenId]);
+        string memory length = Strings.toString(lengths[tokenId]);
         // TODO Fix descirption
         uriParts[1] = string(
             abi.encodePacked(
@@ -67,7 +73,9 @@ contract ZkSnake is ERC721, ERC721Burnable, BonsaiCallbackReceiver {
                 '"description":"This NFT is a zero-knowledge proof of obtaining score in zkSnake game.",',
                 '"attributes":[{"trait_type":"Score","value":"',
                 score,
-                '"}],',
+                '"}, {"trait_type": "Length","value":"',
+                length,
+                '}],',
                 '"image":"data:image/svg+xml;base64,'
             )
         );

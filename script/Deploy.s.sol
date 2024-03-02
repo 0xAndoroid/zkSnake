@@ -8,7 +8,7 @@ import {IBonsaiRelay} from "bonsai/relay/IBonsaiRelay.sol";
 import {BonsaiCheats} from "bonsai/BonsaiCheats.sol";
 
 import {BonsaiDeploy} from "./BonsaiDeploy.sol";
-import {BonsaiStarter} from "../contracts/BonsaiStarter.sol";
+import {ZkSnake} from "../contracts/ZkSnake.sol";
 
 /// @notice Deployment script for the BonsaiStarter project.
 /// @dev Use the following environment variables to control the deployment:
@@ -30,13 +30,14 @@ import {BonsaiStarter} from "../contracts/BonsaiStarter.sol";
 contract Deploy is Script, BonsaiCheats, BonsaiDeploy {
     function run() external {
         startBroadcast();
+        console2.log("Deploying Bonsai Relayer...");
         IBonsaiRelay bonsaiRelay = deployBonsaiRelay();
         uploadImages();
 
         // TEMPLATE: Modify this block to match your expected deployment.
-        bytes32 imageId = queryImageId("FIBONACCI");
-        console2.log("Image ID for FIBONACCI is ", vm.toString(imageId));
-        BonsaiStarter app = new BonsaiStarter(bonsaiRelay, imageId);
+        bytes32 imageId = queryImageId("SNAKE");
+        console2.log("Image ID for SNAKE is ", vm.toString(imageId));
+        ZkSnake app = new ZkSnake(bonsaiRelay, imageId);
         console2.log("Deployed BonsaiStarter to ", address(app));
 
         vm.stopBroadcast();

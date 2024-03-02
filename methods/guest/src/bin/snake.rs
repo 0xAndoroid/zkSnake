@@ -136,8 +136,10 @@ fn main() {
     ];
     // let mut tail = snake[snake.len() - 1]; // after snake moves, this becomes its
     // previous tail. if snake eats after moving, we add this piece back.
+    println!("Input: {:?}", input);
 
     for direction in input {
+        println!("Direction: {:?}", direction);
         // skip invalid moves
         if (prev_direction == 0 && direction == 2)
             || (prev_direction == 2 && direction == 0)
@@ -202,7 +204,7 @@ fn main() {
         }
 
         // die upon hitting wall
-        if snake[0].y > 0 && snake[0].x < 9 && snake[0].y < 9 && snake[0].x > 0 {
+        if snake[0].x > 9 || snake[0].y > 9 {
             break;
         }
 

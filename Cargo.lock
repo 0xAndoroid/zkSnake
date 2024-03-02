@@ -815,6 +815,7 @@ dependencies = [
 name = "bonsai-starter-methods"
 version = "0.1.0"
 dependencies = [
+ "ethabi",
  "risc0-build",
  "risc0-zkvm",
 ]

@@ -14,3 +14,36 @@
 
 //! Generated crate containing the image ID and ELF binary of the build guest.
 include!(concat!(env!("OUT_DIR"), "/methods.rs"));
+
+#[cfg(test)]
+mod tests {
+    use ethabi::{ParamType, Token, Uint};
+    use risc0_zkvm::{default_executor, ExecutorEnv};
+
+    #[test]
+    fn test_score_one() {
+        let input: Vec<u8> = vec![0, 0, 0, 0, 3, 3, 3, 3, 3];
+
+        let env = ExecutorEnv::builder()
+            .write_slice(&ethabi::encode(&[
+                Token::Address(
+                    "0x930235f1Ce11d17f569313Da5452527780C3327F"
+                        .parse()
+                        .unwrap(),
+                ),
+                Token::Bytes(input),
+            ]))
+            .build()
+            .unwrap();
+
+        let session_info = default_executor().execute(env, super::SNAKE_ELF).unwrap();
+
+        let output = ethabi::decode(
+            &[ParamType::Address, ParamType::Uint(256), ParamType::Uint(256)],
+            &session_info.journal.bytes,
+        )
+        .unwrap();
+
+        assert_eq!(output[1].clone().into_uint().unwrap(), Uint::from(1));
+    }
+}

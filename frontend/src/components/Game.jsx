@@ -24,9 +24,9 @@ const Game = () => {
   function handleKeyPress(event) {
     const key = event.key;
     setDirection((direction) => {
-      if (key === "," && direction !== 2) return 0;
-      else if (key === "e" && direction !== 3) return 1;
-      else if (key === "o" && direction !== 0) return 2;
+      if (key === "w" && direction !== 2) return 0;
+      else if (key === "d" && direction !== 3) return 1;
+      else if (key === "s" && direction !== 0) return 2;
       else if (key === "a" && direction !== 1) return 3; // left
       return direction;
     });

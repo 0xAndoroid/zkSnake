@@ -1,4 +1,8 @@
-# Bonsai Foundry Template
+# zkSnake
+
+zkSnake is a snake game that is verifiable using zk proofs. We employed Risc0 Bonsai to produce proofs of our rust application.  
+
+This project is licensed under Apache 2.0 license. See LICENSE for details.
 
 > **Note: This software is not production ready. Do not use in production.**
 

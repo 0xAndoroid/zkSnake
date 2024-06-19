@@ -27,6 +27,9 @@ const LandingHero = (props) => {
               Connect
             </button>
           </div>
+          <div className="flex justify-center">
+            <a href="https://github.com/0xAndoroid/zkSnake" className="mt-2 px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50 transition ease-in-out duration-150">View on GitHub</a>
+          </div>
         </div>
       </div>
     </div>

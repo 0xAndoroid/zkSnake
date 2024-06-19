@@ -37,6 +37,12 @@ const Dropdown = ({ terminate }) => {
           View Profile
         </div>
 
+        <a
+          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+          href="https://github.com/0xAndoroid/zkSnake"
+        >
+          View on GitHub
+        </a>
         <div
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
           onClick={terminate}
